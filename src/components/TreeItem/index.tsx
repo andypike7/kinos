@@ -1,6 +1,11 @@
 import { FC, useState } from 'react'
 import { Control } from '..'
 import { ITreeItem } from './types'
+import styled from 'styled-components'
+
+const TreeItemWrapper = styled.li`
+  padding-top: 10px;
+`
 
 const TreeItem: FC<ITreeItem> = props => {
   const { name, items, level = 0, onDelete } = props
@@ -8,13 +13,10 @@ const TreeItem: FC<ITreeItem> = props => {
   const [childrenItems, setChildrenItems] = useState(() => items)
 
   const onAddItem = (name: string, isDir: boolean) => {
-
-    const newItem: ITreeItem = {
-      name,
-      ...(isDir && { items: [] }),
-    }
-
-    setChildrenItems([...childrenItems, newItem])
+    setChildrenItems([
+      ...childrenItems,
+      { name, ...(isDir && { items: [] }) },
+    ])
   }
 
   const onDeleteChild = (index: number) => {
@@ -38,19 +40,16 @@ const TreeItem: FC<ITreeItem> = props => {
 
       {childrenItems && (
         <ul>
-          {childrenItems?.map((item, index) => {
-              return (
-                <li style={{ paddingTop: 10 }} key={`${level}_${item.name}`}>
-                  <TreeItem
-                    name={item.name}
-                    items={item.items}
-                    level={level + 1}
-                    onDelete={() => onDeleteChild(index)}
-                  />
-                </li>
-              )
-            },
-          )}
+          {childrenItems?.map((item, index) =>
+            <TreeItemWrapper key={`${level}_${item.name}`}>
+              <TreeItem
+                name={item.name}
+                items={item.items}
+                level={level + 1}
+                onDelete={() => onDeleteChild(index)}
+              />
+            </TreeItemWrapper>)
+          }
         </ul>
       )}
     </>
