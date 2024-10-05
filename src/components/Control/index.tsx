@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import { AddItem } from '..'
 import { IControl } from './types'
 import styled from 'styled-components'
@@ -20,4 +20,4 @@ const Control: FC<IControl> = props => {
   )
 }
 
-export default Control
+export default memo(Control)

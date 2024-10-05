@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, memo, useCallback, useState } from 'react'
 import { Control } from '..'
 import { ITreeItem } from './types'
 import styled from 'styled-components'
@@ -6,26 +6,25 @@ import styled from 'styled-components'
 const TreeItemWrapper = styled.li`
   padding-top: 10px;
 `
-
 const TreeItem: FC<ITreeItem> = props => {
   const { name, items, level = 0, onDelete } = props
 
   const [childrenItems, setChildrenItems] = useState(() => items)
 
-  const onAddItem = (name: string, isDir: boolean) => {
+  const onAddItem = useCallback((name: string, isDir: boolean) => {
     setChildrenItems([
       ...childrenItems,
       { name, ...(isDir && { items: [] }) },
     ])
-  }
+  }, [childrenItems])
 
-  const onDeleteChild = (index: number) => {
+  const onDeleteChild = useCallback((index: number) => {
     if (!childrenItems) return
 
     setChildrenItems(childrenItems.filter((_, elIndex) =>
       elIndex !== index,
     ))
-  }
+  }, [childrenItems])
 
   return (
     <>
@@ -56,4 +55,4 @@ const TreeItem: FC<ITreeItem> = props => {
   )
 }
 
-export default TreeItem
+export default memo(TreeItem)
