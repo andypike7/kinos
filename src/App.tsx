@@ -1,10 +1,14 @@
 import { Tree } from './components'
 
-function App() {
+import { mockupTree } from './mockup/tree'
+
+const App = () => {
+  const tree = { ...mockupTree }
+
   return (
     <>
       <h1>Tree List</h1>
-      <Tree />
+      <Tree tree={tree} />
     </>
   )
 }

@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import { TreeItem } from '..'
-import { mockupTree } from './mockup'
+import { defaultTree } from './constants'
 
-const Tree: FC = () => {
-  const tree = { ...mockupTree } // { name: 'Root' }
+const Tree: FC = props => {
+  const { tree = defaultTree } = props
 
   return (
     <ul>
